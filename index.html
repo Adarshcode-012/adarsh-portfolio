@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./studio.css">
   <link rel="stylesheet" href="./world.css">
   <script src="./studio.js" defer></script>
+  <script src="./portfolio-additions.js" defer></script>
   <script src="./world-game.js" type="module"></script>
 </head>
 <body>
@@ -48,7 +49,7 @@
       </div>
     </section>
     <section id="work" class="section">
-      <p class="label">Selected work</p><h2>What I’ve built</h2>
+      <div class="work-section-head"><div><p class="label">Selected work</p><h2>What I’ve built</h2></div><a class="text-link" href="#mini-projects">Mini Projects</a></div>
       <div class="projects">
         <article class="project featured" id="solvex">
           <div class="project-art solve-art" aria-hidden="true"><div><b>SUBMISSION</b><code>analyze → plan → write</code><code>review → judge</code><code class="success">↳ retry with test feedback</code></div></div>
@@ -62,18 +63,30 @@
         <article class="project compact" id="foundersync"><p class="label">Founder project · paused</p><h3>FounderSync</h3><p>A pre-launch product concept for India’s founders and investors, with document verification built into membership and visibility.</p><button class="text-link" type="button" data-project="foundersync">Read project notes</button></article>
       </div>
     </section>
+    <section id="mini-projects" class="section mini-projects" aria-labelledby="mini-projects-title">
+      <h2 id="mini-projects-title">Mini Projects</h2>
+      <div class="projects" id="mini-project-list"></div>
+      <p id="mini-project-empty">A space for smaller builds and experiments. Projects will appear here as I add them.</p>
+    </section>
     <section id="about" class="section about">
       <div><p class="label">About</p><h2>Hi, again.</h2><p>I’m Adarsh, a computer science student at Vellore Institute of Technology focused on AI and machine learning. I like writing the backend, building the interface, and seeing how it all holds up when someone uses it.</p><p>I’m drawn to startups and small teams where I can collaborate closely, take ownership, and lead when needed. I previously co-led our VITronix Club.</p></div>
       <div class="experience"><h3>Experience</h3><article><span>Mar–May 2026</span><h4>AI Intern · Upstride</h4><p>Built a distributor spreadsheet pipeline that flagged invalid rows for review, and an agent with eight analytics tools.</p></article><article><span>Feb–Apr 2026</span><h4>AI/ML Intern · Infosys Springboard</h4><p>Worked on review analytics and collaborated on a FastAPI backend and retrieval assistant.</p></article><article><span>Mar–Apr 2026</span><h4>Backend &amp; Game Developer Intern · AuraMeter</h4><p>Built seven React Native games and implemented minimax with alpha-beta pruning.</p></article></div>
     </section>
     <section id="credentials" class="section credentials">
       <p class="label">Credentials</p><h2>Learning and recognition</h2>
-      <ul><li><strong>AWS Certified Solutions Architect – Associate</strong><span>Amazon Web Services · Oct 2026</span></li><li><strong>AWS Certified Cloud Practitioner</strong><span>Amazon Web Services · Oct 2026</span></li><li><a href="https://coursera.org/verify/8895OYQYZKVW">Applied Machine Learning in Python</a><span>University of Michigan via Coursera · 2025</span></li><li><a href="https://coursera.org/verify/75O3FZQFWEOF">Machine Learning with Python</a><span>IBM via Coursera · 2024</span></li></ul>
+      <ul><li><a data-certificate href="./certificate-aws-solutions-architect.png"><strong>AWS Certified Solutions Architect – Associate</strong></a><span>Amazon Web Services · Oct 2026</span></li><li><a data-certificate href="./certificate-aws-cloud-practitioner.png"><strong>AWS Certified Cloud Practitioner</strong></a><span>Amazon Web Services · Oct 2026</span></li><li><a href="https://coursera.org/verify/8895OYQYZKVW">Applied Machine Learning in Python</a><span>University of Michigan via Coursera · 2025</span></li><li><a href="https://coursera.org/verify/75O3FZQFWEOF">Machine Learning with Python</a><span>IBM via Coursera · 2024</span></li></ul>
       <h3 class="recognition">Hackathons</h3>
-      <ul><li><strong>National Semi-Finalist</strong><span>Flipkart GRiD 8.0 · 2026</span></li><li><strong>Round 1 Participant</strong><span>Adobe India Hackathon</span></li></ul>
+      <ul><li><a data-certificate data-title="Flipkart GRiD 8.0 · National Semi-Finalist" href="./certificate-flipkart-grid.png"><strong>National Semi-Finalist</strong></a><span>Flipkart GRiD 8.0 · 2026</span></li><li><a data-certificate data-title="Adobe India Hackathon · Round 1 Participant" href="./certificate-adobe-hackathon.png"><strong>Round 1 Participant</strong></a><span>Adobe India Hackathon</span></li></ul>
     </section>
     <footer id="contact" class="section contact"><div><p class="label">Contact</p><h2>Let’s talk.</h2></div><div class="contact-links"><a class="fill" href="mailto:adarshjaiswal273001@gmail.com">Email Adarsh</a><a href="https://www.linkedin.com/in/adarsh-jaiswal-2b79432a9">LinkedIn</a><a href="https://github.com/Adarshcode-012">GitHub</a></div></footer>
   </main>
+  <dialog id="certificate-dialog" class="certificate-dialog" aria-labelledby="certificate-title">
+    <form method="dialog" class="dialog-top">
+      <h2 id="certificate-title"></h2><button class="quiet" type="submit" autofocus aria-label="Close certificate">Close</button>
+    </form>
+    <img id="certificate-image" alt="">
+    <a id="certificate-original" href="#" target="_blank" rel="noopener">Open image in a new tab</a>
+  </dialog>
   <dialog class="world" id="world" aria-labelledby="world-title">
     <div id="world-view" class="world-view" tabindex="-1" aria-label="Play area"></div>
     <div id="world-labels" class="world-labels"></div>

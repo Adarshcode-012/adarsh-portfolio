@@ -95,3 +95,15 @@ dialog::backdrop{background:#0b0d0ad4}
 @media(max-width:750px){.hero{grid-template-columns:1fr;padding-top:2.75rem}.intro>p:not(.caption){max-width:38ch}h1{font-size:clamp(5rem,14vw,8rem)}.about,.contact{display:block}.contact-links{margin-top:1.35rem}}
 @media(max-width:480px){.top,.hero,.section{width:calc(100% - 1.75rem)}.top{gap:.35rem;min-height:4rem}.top nav{gap:.65rem;font-size:.875rem}.ask-top{font-size:.875rem;min-height:2.2rem;padding-inline:.45rem}.projects,.credentials ul{grid-template-columns:1fr}.studio-top,.studio-foot{padding:.5rem}.studio-foot p{max-width:18ch}.dpad button{min-width:2.1rem;min-height:2.15rem}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.mini-projects h2{margin-top:0}
+.work-section-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.work-section-head>a{margin-bottom:1.25rem}
+#mini-project-empty{color:var(--muted);margin-bottom:0}
+.mini-project h3{font-size:clamp(1.9rem,3.2vw,2.6rem)}
+.mini-project .tech{font-size:.875rem;color:var(--accent);margin-bottom:.65rem}
+.mini-project-links{display:flex;flex-wrap:wrap;gap:.65rem 1rem}
+.certificate-dialog{width:min(62rem,calc(100% - 1.5rem))}
+.certificate-dialog .dialog-top h2{font-size:clamp(1.7rem,4vw,2.8rem)}
+.certificate-dialog img{display:block;width:100%;max-height:70dvh;object-fit:contain}
+.certificate-dialog>a{display:inline-block;margin-top:.75rem;text-decoration:underline;text-underline-offset:.2em}
+.credentials a[data-certificate]{width:fit-content}
