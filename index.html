@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Adarsh builds software products end to end. Explore his AI, search and game development work, or ask Miso for a tour.">
+  <meta name="theme-color" content="#181a16">
+  <title>Adarsh — Software Engineer</title>
+  <link rel="stylesheet" href="./studio.css">
+  <link rel="stylesheet" href="./world.css">
+  <script src="./studio.js" defer></script>
+  <script src="./world-game.js" type="module"></script>
+</head>
+<body>
+  <a class="skip" href="#work">Skip to work</a>
+  <header class="top">
+    <a class="wordmark" href="#" aria-label="Adarsh home">Adarsh</a>
+    <nav aria-label="Main navigation">
+      <a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a>
+    </nav>
+    <button class="outline ask-top" type="button" data-ask>Ask Miso</button>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="intro">
+      <div class="intro">
+        <p class="caption"><span></span> SOFTWARE ENGINEER · APPLIED AI</p>
+        <h1 id="intro">Hi, I’m<br><em>Adarsh.</em></h1>
+        <p>I build products end to end, from the logic that makes them work to the interface people actually use.</p>
+        <div class="actions"><a class="fill" href="#work">View my work</a><button class="outline" id="play" data-open-world aria-haspopup="dialog" aria-controls="world" type="button" disabled>Explore the studio</button></div>
+      </div>
+      <div class="studio" id="studio">
+        <div class="studio-top"><span>THE BUILD STUDIO</span><button id="sound" class="quiet" type="button" aria-pressed="false">Sound off</button></div>
+        <div class="scene">
+          <canvas id="room" width="820" height="560" aria-hidden="true"></canvas>
+          <div id="markers">
+            <button type="button" data-station="solvex">SolveX</button>
+            <button type="button" data-station="stylesearch">StyleSearch</button>
+            <button type="button" data-station="foundersync">FounderSync</button>
+            <button type="button" data-station="miso" aria-label="Talk to Miso">Miso</button>
+          </div>
+        </div>
+        <div class="studio-foot">
+          <p id="studio-status" aria-live="polite">Pick a station or explore with your keyboard.</p>
+          <div class="dpad" aria-label="Move">
+            <button type="button" data-move="left" aria-label="Move left">←</button><button type="button" data-move="up" aria-label="Move up">↑</button><button type="button" data-move="down" aria-label="Move down">↓</button><button type="button" data-move="right" aria-label="Move right">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="work" class="section">
+      <p class="label">Selected work</p><h2>What I’ve built</h2>
+      <div class="projects">
+        <article class="project featured" id="solvex">
+          <div class="project-art solve-art" aria-hidden="true"><div><b>SUBMISSION</b><code>analyze → plan → write</code><code>review → judge</code><code class="success">↳ retry with test feedback</code></div></div>
+          <div class="project-copy"><p class="label">Agent orchestration</p><h3>SolveX</h3><p>A coding assistant that routes a problem through five agents, runs generated code against sample tests when judging is configured, and feeds failures back into the next attempt.</p><button class="text-link" type="button" data-project="solvex">Read case study</button></div>
+        </article>
+        <article class="project featured" id="stylesearch">
+          <div class="project-art search-art" aria-hidden="true"><div><b>SEARCH EVALUATION</b><strong>0.64 <i>→</i> 0.80</strong><code>Precision@10 · offline evaluation</code></div></div>
+          <div class="project-copy"><p class="label">Search and evaluation</p><h3>StyleSearch AI</h3><p>A shopper can describe an outfit in their own words. The search engine combines keyword and semantic retrieval, keeps the budget fixed, and ranks relevant products.</p><button class="text-link" type="button" data-project="stylesearch">Read case study</button></div>
+        </article>
+        <article class="project compact" id="polishcv"><p class="label">Full-stack product</p><h3>PolishCV</h3><p>Upload a résumé, refine it with AI, edit it in a live preview, and export it to Word or PDF.</p><button class="text-link" type="button" data-project="polishcv">Read case study</button></article>
+        <article class="project compact" id="foundersync"><p class="label">Founder project · paused</p><h3>FounderSync</h3><p>A pre-launch product concept for India’s founders and investors, with document verification built into membership and visibility.</p><button class="text-link" type="button" data-project="foundersync">Read project notes</button></article>
+      </div>
+    </section>
+    <section id="about" class="section about">
+      <div><p class="label">About</p><h2>Hi, again.</h2><p>I’m Adarsh, a computer science student at Vellore Institute of Technology focused on AI and machine learning. I like writing the backend, building the interface, and seeing how it all holds up when someone uses it.</p><p>I’m drawn to startups and small teams where I can collaborate closely, take ownership, and lead when needed. I previously co-led our VITronix Club.</p></div>
+      <div class="experience"><h3>Experience</h3><article><span>Mar–May 2026</span><h4>AI Intern · Upstride</h4><p>Built a distributor spreadsheet pipeline that flagged invalid rows for review, and an agent with eight analytics tools.</p></article><article><span>Feb–Apr 2026</span><h4>AI/ML Intern · Infosys Springboard</h4><p>Worked on review analytics and collaborated on a FastAPI backend and retrieval assistant.</p></article><article><span>Mar–Apr 2026</span><h4>Backend &amp; Game Developer Intern · AuraMeter</h4><p>Built seven React Native games and implemented minimax with alpha-beta pruning.</p></article></div>
+    </section>
+    <section id="credentials" class="section credentials">
+      <p class="label">Credentials</p><h2>Learning and recognition</h2>
+      <ul><li><strong>AWS Certified Solutions Architect – Associate</strong><span>Amazon Web Services · Oct 2026</span></li><li><strong>AWS Certified Cloud Practitioner</strong><span>Amazon Web Services · Oct 2026</span></li><li><a href="https://coursera.org/verify/8895OYQYZKVW">Applied Machine Learning in Python</a><span>University of Michigan via Coursera · 2025</span></li><li><a href="https://coursera.org/verify/75O3FZQFWEOF">Machine Learning with Python</a><span>IBM via Coursera · 2024</span></li></ul>
+      <h3 class="recognition">Hackathons</h3>
+      <ul><li><strong>National Semi-Finalist</strong><span>Flipkart GRiD 8.0 · 2026</span></li><li><strong>Round 1 Participant</strong><span>Adobe India Hackathon</span></li></ul>
+    </section>
+    <footer id="contact" class="section contact"><div><p class="label">Contact</p><h2>Let’s talk.</h2></div><div class="contact-links"><a class="fill" href="mailto:adarshjaiswal273001@gmail.com">Email Adarsh</a><a href="https://www.linkedin.com/in/adarsh-jaiswal-2b79432a9">LinkedIn</a><a href="https://github.com/Adarshcode-012">GitHub</a></div></footer>
+  </main>
+  <dialog class="world" id="world" aria-labelledby="world-title">
+    <div id="world-view" class="world-view" tabindex="-1" aria-label="Play area"></div>
+    <div id="world-labels" class="world-labels"></div>
+    <div id="world-meow" class="world-meow" aria-hidden="true" hidden>Mrrp!</div>
+    <p class="world-message" id="world-loading" role="status">Opening the studio…</p>
+    <section class="world-fallback" id="world-fallback" hidden>
+      <div><h3>Studio tour</h3><p>Choose a destination or visit the food bowl, milk bowl and fish pond.</p><div class="world-fallback-actions"></div></div>
+    </section>
+    <header class="world-header">
+      <div class="world-brand"><h2 id="world-title">The Build Studio</h2><p>Miso’s adventure <span id="world-sky">Day</span></p></div>
+      <form method="dialog" class="world-ui-group">
+        <button type="button" class="world-button" id="world-map-toggle" aria-controls="world-map" aria-expanded="false">Map</button>
+        <button type="button" class="world-button" id="world-sound" aria-pressed="false">Sound off</button>
+        <button class="world-button" aria-label="Exit studio" autofocus>Exit</button>
+      </form>
+    </header>
+    <nav class="world-map world-ui-group" id="world-map" aria-label="Studio destinations" hidden>
+      <canvas id="world-map-image" width="300" height="198" aria-hidden="true"></canvas>
+      <p>Choose a destination</p>
+      <div class="world-map-list"></div>
+    </nav>
+    <div class="world-controls">
+      <div class="world-quest">
+        <div aria-live="polite" aria-atomic="true">
+          <p class="world-progress" id="world-progress"></p>
+          <strong id="world-quest"></strong>
+          <p id="world-hint" class="world-hint"></p>
+          <p id="world-complete" class="world-complete" hidden>All activities and stations complete.</p>
+        </div>
+        <div id="world-challenge" class="world-challenge" hidden>
+          <strong id="challenge-readout"></strong>
+          <button class="world-button" id="challenge-guide" type="button">Guide me</button>
+          <button class="world-button" id="challenge-stop" type="button">Stop</button>
+        </div>
+      </div>
+      <div class="world-controller">
+        <div class="world-dpad" aria-label="Movement">
+          <button class="world-button" data-world-move="up" aria-label="Move up" type="button">↑</button>
+          <button class="world-button" data-world-move="left" aria-label="Move left" type="button">←</button>
+          <button class="world-button" data-world-move="down" aria-label="Move down" type="button">↓</button>
+          <button class="world-button" data-world-move="right" aria-label="Move right" type="button">→</button>
+        </div>
+        <button class="world-button world-action" id="world-action" type="button" disabled>Interact</button>
+        <button class="world-button world-car" id="world-car" type="button" disabled>Enter car</button>
+      </div>
+    </div>
+  </dialog>
+  <dialog id="project-dialog" aria-labelledby="project-title">
+    <form method="dialog" class="dialog-top"><p class="label">Project notes</p><button class="quiet" aria-label="Close case study">Close</button></form>
+    <h2 id="project-title"></h2><div id="project-detail"></div>
+  </dialog>
+  <dialog id="miso-dialog" aria-labelledby="miso-title">
+    <form method="dialog" class="dialog-top"><h2 id="miso-title">Ask Miso</h2><button class="quiet" aria-label="Close Miso conversation">Close</button></form>
+    <div id="chat" role="log" aria-live="polite"><p class="answer">Meow. Ask me about Adarsh, his projects, or what he’s worked on in a team.</p></div>
+    <div class="prompts">
+      <button type="button">Who is Adarsh?</button><button type="button">What did you build yourself?</button><button type="button">Which project best shows your backend skills?</button><button type="button">What are you building with FounderSync?</button>
+    </div>
+    <form id="chat-form"><label class="sr-only" for="question">Question for Miso</label><input id="question" maxlength="240" placeholder="Ask about Adarsh’s work…"><button class="fill" type="submit">Send</button></form>
+    <p id="chat-mode" class="mode">Answers from portfolio sources</p>
+  </dialog>
+</body>
+</html>

@@ -1,0 +1,116 @@
+.world {
+  --world-ink:#fff2df;
+  --world-muted:#d7cbb4;
+  --world-line:#f8d2a557;
+  --world-panel:#282820ed;
+  position:fixed;
+  inset:0;
+  margin:0;
+  width:100%;
+  height:100%;
+  max-width:none;
+  max-height:none;
+  padding:0;
+  border:0;
+  border-radius:0;
+  overflow:hidden;
+  background:#b79872;
+  color:var(--world-ink);
+}
+.world[open]{display:block}
+.world-view,.world-labels,.world-fallback{position:absolute;inset:0}
+.world-view canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.world-labels{pointer-events:none;overflow:hidden}
+.world-pin{
+  position:absolute;
+  z-index:1;
+  transform:translate(-50%,-100%);
+  pointer-events:auto;
+  min-height:2.25rem;
+  padding:.34rem .7rem;
+  border-radius:1.4rem;
+  border:1px solid #f9d9a884;
+  background:#27271eee;
+  color:#fff0d1;
+  white-space:nowrap;
+  box-shadow:0 .25rem .85rem #292a2377;
+  font-size:.875rem;
+  font-weight:700;
+}
+.world-pin:hover,.world-pin.near{background:#f3c88e;color:#2d2118;border-color:#ffebbc}
+.world-pin.treat{background:#4a3928;color:#ffdb9d;font-size:.875rem}
+.world-pin.treat:hover,.world-pin.treat.near{background:#f3c88e;color:#2d2118}
+.world-pin[hidden],.world-fallback[hidden],.world-ui-group[hidden],.world-message[hidden],.world-controller[hidden],#world-complete[hidden]{display:none}
+.world-header,.world-controls{position:absolute;z-index:2;left:0;right:0;display:flex;justify-content:space-between;align-items:start;pointer-events:none}
+.world-header{top:0;padding:max(1.15rem,env(safe-area-inset-top)) clamp(.65rem,3vw,2.8rem)}
+.world-controls{bottom:0;align-items:end;gap:.75rem;padding:.75rem clamp(.65rem,3vw,2.8rem) max(1rem,env(safe-area-inset-bottom))}
+.world-header>* ,.world-controls>*{pointer-events:auto}
+.world-brand,.world-quest,.world-controller,.world-ui-group{
+  background:var(--world-panel);
+  border:1px solid var(--world-line);
+  border-radius:.6rem;
+  box-shadow:0 .5rem 2.5rem #24241b4d;
+}
+.world-brand{padding:.68rem 1.05rem}
+.world-brand p,.world-quest p{margin:0}
+.world-brand h2{font-size:clamp(2.2rem,4vw,3.1rem);margin:0}
+.world-brand p,.world-quest .world-progress{font-size:.875rem;color:#e5bf8d;font-weight:700}
+#world-sky{display:inline-block;margin-left:.25rem;padding:0 .38rem;border:1px solid var(--world-line);border-radius:1rem;color:#fff2df;font-size:.78rem}
+.world-ui-group{display:flex;align-items:center;gap:.38rem;padding:.3rem}
+.world button:focus-visible{outline-color:#ffdeaa}
+.world-button{
+  border:1px solid var(--world-line);
+  border-radius:.35rem;
+  background:#38362b;
+  color:var(--world-ink);
+  min-height:2.45rem;
+  padding:.35rem .65rem;
+  font-weight:600;
+}
+.world-button:hover{background:#4b4030;border-color:#f3c88e}
+.world-quest{max-width:min(31rem,55vw);padding:.7rem .9rem}
+.world-quest strong{display:block;line-height:1.3}
+.world-quest .world-hint{font-size:.875rem;color:var(--world-muted);line-height:1.35;margin-top:.25rem}
+.world-complete{color:#ffe2a8;font-weight:700;margin-top:.2rem!important}
+.world-controller{display:grid;gap:.3rem;justify-items:center;padding:.42rem}
+.world-dpad{display:grid;grid-template-columns:repeat(3,2.45rem);gap:.2rem}
+.world-dpad button{padding:0;min-width:0;touch-action:none}
+.world-dpad [data-world-move="up"]{grid-column:2}
+.world-dpad [data-world-move="left"]{grid-column:1;grid-row:2}
+.world-dpad [data-world-move="down"]{grid-column:2;grid-row:2}
+.world-dpad [data-world-move="right"]{grid-column:3;grid-row:2}
+.world-action{width:100%;background:#efc28c;color:#2b2117;padding-inline:.35rem}
+.world-action:hover{background:#ffdaaa;color:#2b2117}
+.world-action:disabled{background:#36382e;color:#c0beaa;cursor:default}
+.world-car{width:100%;padding-inline:.35rem}
+.world-car:disabled{display:none}
+.world-message{position:absolute;inset:0;display:grid;place-content:center;text-align:center;color:#f7e7cc;background:#363d30;margin:0;padding:5rem 1rem}
+.world-fallback{display:grid;place-items:center;padding:7rem 1rem 8rem;background:radial-gradient(ellipse,#9f835e,#53604a);overflow:auto}
+.world-fallback > div{display:grid;gap:.65rem;background:#2a2d23;border:1px solid var(--world-line);border-radius:.6rem;padding:1rem;max-width:33rem}
+.world-fallback h3,.world-fallback p{margin:0}
+.world-fallback-actions{display:flex;flex-wrap:wrap;gap:.45rem}
+.world-fallback .world-button:disabled{opacity:.56;cursor:default}
+.world-map{position:absolute;top:5.2rem;right:clamp(.65rem,3vw,2.8rem);z-index:3;width:min(17rem,calc(100% - 1.3rem));max-height:calc(100% - 6rem);overflow:auto;padding:.65rem;display:grid;gap:.4rem}
+.world-map button{text-align:left}
+.world-map[hidden]{display:none}
+.world-map p{margin:0 .3rem}
+.world-map canvas{display:block;width:100%;height:auto;border-radius:.35rem;cursor:crosshair}
+.world-map-list{display:grid;grid-template-columns:1fr 1fr;gap:.35rem}
+.world-map-list button{font-size:.875rem;line-height:1.25;padding:.38rem .44rem}
+.world-challenge{display:flex;flex-wrap:wrap;align-items:center;gap:.28rem .42rem;border-top:1px solid var(--world-line);padding-top:.46rem;margin-top:.55rem}
+.world-challenge[hidden],.world-meow[hidden]{display:none}
+.world-challenge strong{flex:1 0 100%;color:#ffe4a6}
+.world-challenge button{font-size:.875rem;min-height:2.1rem;padding:.2rem .48rem}
+.world-pin.challenge-pin{background:#f6d693;color:#2a2319;border-color:#fff2c3}
+.world-meow{position:absolute;pointer-events:none;transform:translate(-50%,-100%);z-index:1;background:#fff0cf;color:#3a3226;border:1px solid #a18160;border-radius:1rem;padding:.16rem .58rem;font-size:.875rem;font-weight:700}
+body:has(.world[open]){overflow:hidden}
+@media(max-width:600px){
+  .world-brand{padding:.5rem .65rem}
+  .world-brand p{font-size:.82rem}
+  .world-ui-group{gap:.18rem;padding:.23rem}
+  .world-ui-group button{font-size:.82rem;padding-inline:.4rem}
+  .world-quest{padding:.55rem .6rem;max-width:calc(100% - 8.7rem)}
+  .world-quest .world-hint{font-size:.8rem}
+  .world-dpad{grid-template-columns:repeat(3,2.25rem)}
+  .world-pin{font-size:.82rem;padding:.23rem .5rem;min-height:1.85rem}
+}
