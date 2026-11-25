@@ -1,1 +1,25 @@
-[]
+[
+  {
+    "title": "Voice Shopping Assistant",
+    "description": "A mobile shopping list you can update by speaking. A LangGraph agent keeps track of the conversation, asks follow-up questions when a request is unclear, and uses tools to update the list or search a grocery catalog.",
+    "tags": [
+      "React Native",
+      "Expo",
+      "FastAPI",
+      "LangGraph",
+      "Whisper"
+    ],
+    "source": "https://github.com/Adarshcode-012/Voice-shopping-assistant#readme"
+  },
+  {
+    "title": "ActivityHub",
+    "description": "A full-stack activity booking app where users can browse available slots, reserve a spot, and manage their bookings. The API checks capacity and prevents duplicate reservations, and admins can manage activities.",
+    "tags": [
+      "Next.js",
+      "TypeScript",
+      "Prisma",
+      "PostgreSQL"
+    ],
+    "source": "https://github.com/Adarshcode-012/ActivityHub"
+  }
+]
