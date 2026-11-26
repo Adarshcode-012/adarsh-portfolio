@@ -234,7 +234,12 @@ const stations = {
   miso: {x:2, y:5.25, label:"Miso", marker:[241, 390]},
 };
 const walker = {x:5.9, y:4.5};
-const cursor = {x:0, y:0};
+const catHome = {x:290, y:392};
+const catMotion = {
+  ...catHome, targetX:catHome.x, targetY:catHome.y, facing:-1, stride:0, phase:0,
+};
+const catScale = 1.64;
+let pointer = null;
 let active = false;
 let focusedStation = null;
 let lastRender = 0;
@@ -283,23 +288,33 @@ function stroke(points, color, width = 1) {
 }
 
 function cat(x, y, time) {
+  const bounds = canvas.getBoundingClientRect();
+  const screenX = bounds.left + x / canvas.width * bounds.width;
+  const screenY = bounds.top + (y - 32 * catScale) / canvas.height * bounds.height;
+  const direction = pointer ? Math.atan2(pointer.y - screenY, pointer.x - screenX) : 0;
+  const lookX = pointer ? -catMotion.facing * Math.cos(direction) : 0;
+  const lookY = pointer ? Math.sin(direction) : 0;
+  const step = Math.sin(catMotion.phase) * catMotion.stride;
   context.save();
   context.translate(x,y);
-  context.scale(1.27,1.27);
+  context.scale(-catMotion.facing * catScale,catScale);
   x=0;
   y=0;
   const grumpy = time < annoyedUntil;
   const blink = !reduced.matches && time % 5300 > 5140;
   oval(x,y+7,42,12,"#2b241c66");
-  stroke([[x+8,y-7],[x+25,y+2],[x+43,y-3],[x+48,y-14]],"#343631",9);
+  stroke([[x+8,y-7],[x+25,y+2],[x+43,y-3+step*5],[x+48,y-14+step*8]],"#343631",9);
+  context.translate(0,-Math.abs(step)*3);
   const fur = context.createLinearGradient(x-28,y-40,x+24,y+10);
   fur.addColorStop(0,"#61635c");
   fur.addColorStop(1,"#272b26");
+  oval(x-15-step*7,y+1,8,5,"#363a34");
+  oval(x+16+step*7,y+1,8,5,"#363a34");
   oval(x+4,y-10,25,20,fur);
-  oval(x-12,y+2,10,5,"#4e5049");
-  oval(x+1,y+4,11,5,"#454942");
+  oval(x-12+step*8,y+4-Math.max(0,step)*6,10,5,"#4e5049");
+  oval(x+9-step*8,y+6+Math.min(0,step)*6,11,5,"#454942");
   const cy = y-32;
-  const earTilt = grumpy ? 7 : cursor.x * 3;
+  const earTilt = grumpy ? 7 : lookX * 3;
   polygon([[x-26,cy-1],[x-26-earTilt,cy-25],[x-9,cy-14]],"#4a4e47");
   polygon([[x-24,cy-7],[x-24-earTilt,cy-20],[x-15,cy-12]],"#ad8272");
   polygon([[x+1,cy-15],[x+15+earTilt,cy-25],[x+17,cy-1]],"#474b43");
@@ -312,9 +327,11 @@ function cat(x, y, time) {
       stroke([[eye-5,cy],[eye+5,cy]],"#cfab60",1.5);
       continue;
     }
-    oval(eye,cy,6,grumpy ? 2.7 : 4.5,"#e9b75b");
-    oval(eye + (grumpy ? 2 : cursor.x * 3.4),cy+cursor.y*1.9,2.2,grumpy ? 2 : 3.6,"#262921");
-    oval(eye-1,cy-1,1,1,"#fff5d7");
+    const pupilX = eye + lookX * 3.6;
+    const pupilY = cy + lookY * (grumpy ? 1 : 2.4);
+    oval(eye,cy,7,grumpy ? 3 : 5.5,"#e9b75b");
+    oval(pupilX,pupilY,2.5,grumpy ? 1.8 : 3,"#262921");
+    oval(pupilX-.7,pupilY-1,1,1,"#fff5d7");
   }
   oval(x-5,cy+7,2.8,1.8,"#c59082");
   stroke([[x-14,cy+7],[x-29,cy+5]],"#e7dfbd88");
@@ -394,8 +411,6 @@ function render(time = performance.now()) {
   polygon([iso(3.83,3.34),iso(7.42,3.34),iso(7.42,5.28),iso(3.83,5.28)],"#647459","#9ba175");
   for (let i=0;i<4;i++) stroke([iso(4,3.6+i*.43),iso(7.19,3.6+i*.43)],"#7b8866");
   table(1.15,4.92,1.65,.76,25);
-  const [catX,catY] = iso(2.22,5.23,32);
-  cat(catX,catY,time);
   plant(.35,5.52,24);
   const [px,py] = iso(walker.x,walker.y);
   oval(px,py+4,13,6,"#26241b75");
@@ -411,6 +426,7 @@ function render(time = performance.now()) {
     context.lineWidth = 1.1;
     context.stroke();
   }
+  cat(catMotion.x,catMotion.y,time);
 }
 
 function walk(direction) {
@@ -456,29 +472,44 @@ studio.addEventListener("keydown", (event) => {
     interact(focusedStation);
   }
 });
-studio.addEventListener("pointermove", (event) => {
-  if (reduced.matches || event.pointerType === "touch") return;
-  const rect = canvas.getBoundingClientRect();
-  const x = ((event.clientX - rect.left) / rect.width * 820 - 241) / 120;
-  const y = ((event.clientY - rect.top) / rect.height * 560 - 310) / 95;
-  cursor.x = Math.max(-1,Math.min(1,x));
-  cursor.y = Math.max(-1,Math.min(1,y));
+window.addEventListener("pointermove", (event) => {
+  if (event.pointerType === "touch") return;
+  const previous = pointer;
+  pointer = {x:event.clientX, y:event.clientY};
+  if (!frame || reduced.matches || !previous) return;
+  const dx = pointer.x - previous.x;
+  const dy = pointer.y - previous.y;
+  catMotion.targetX = Math.max(160,Math.min(480,catMotion.targetX + dx * .52));
+  catMotion.targetY = Math.max(355,Math.min(448,catMotion.targetY + dy * .30));
 });
-studio.addEventListener("pointerleave", () => { cursor.x = 0; cursor.y = 0; canvas.style.cursor = ""; });
+document.documentElement.addEventListener("pointerleave", () => { pointer = null; });
+window.addEventListener("blur", () => { pointer = null; });
 function hitCat(event) {
   const rect = canvas.getBoundingClientRect();
   if (!rect.width || !rect.height) return false;
   const x = (event.clientX-rect.left)/rect.width * canvas.width;
   const y = (event.clientY-rect.top)/rect.height * canvas.height;
-  const [catX,catY] = iso(2.22,5.23,32);
-  return x>catX-42 && x<catX+63 && y>catY-76 && y<catY+13;
+  const localX = (x-catMotion.x) / catScale * -catMotion.facing;
+  const localY = (y-catMotion.y) / catScale;
+  return localX > -30 && localX < 52 && localY > -59 && localY < 12;
 }
 canvas.addEventListener("pointermove", (event) => { canvas.style.cursor = hitCat(event) ? "pointer" : ""; });
+canvas.addEventListener("pointerleave", () => { canvas.style.cursor = ""; });
 canvas.addEventListener("click", (event) => { if (hitCat(event)) interact("miso"); });
 render();
 let frame = 0;
 function animate(time) {
-  if (time-lastRender>50) {
+  if (time-lastRender>20) {
+    const elapsed = Math.min(time-lastRender,50);
+    const dx = catMotion.targetX-catMotion.x;
+    const dy = catMotion.targetY-catMotion.y;
+    const distance = Math.hypot(dx,dy);
+    const progress = Math.min(1,.25 * elapsed / Math.max(distance,1));
+    if (Math.abs(dx) > 2) catMotion.facing = Math.sign(dx);
+    catMotion.x += dx * progress;
+    catMotion.y += dy * progress;
+    catMotion.stride = Math.min(1,distance / 6);
+    catMotion.phase += distance > .5 ? elapsed * .019 : 0;
     render(time);
     lastRender = time;
   }
@@ -486,13 +517,16 @@ function animate(time) {
 }
 new IntersectionObserver(([entry]) => {
   cancelAnimationFrame(frame);
+  frame = 0;
   if (entry.isIntersecting && !reduced.matches) frame = requestAnimationFrame(animate);
   else render();
 }).observe(canvas);
 reduced.addEventListener("change", () => {
   cancelAnimationFrame(frame);
-  cursor.x = 0;
-  cursor.y = 0;
+  frame = 0;
+  pointer = null;
+  catMotion.stride = 0;
   render();
-  if (!reduced.matches && canvas.getBoundingClientRect().bottom > 0) frame = requestAnimationFrame(animate);
+  const bounds = canvas.getBoundingClientRect();
+  if (!reduced.matches && bounds.bottom > 0 && bounds.top < innerHeight) frame = requestAnimationFrame(animate);
 });
