@@ -66,14 +66,14 @@ function openProject(key) {
 }
 
 const sources = [
-  {title:"About Adarsh", id:"about", tags:["who is adarsh","who are you","about","background","education","leadership","team","student","introduce"], answer:"Adarsh is a computer science student at Vellore Institute of Technology focused on AI and machine learning. He likes building products end to end and working with early-stage teams. He previously co-led the VITronix Club."},
+  {title:"About Adarsh", id:"about", tags:["about adarsh","background","education","leadership","team","student","where did adarsh study","what did adarsh study"], answer:"Adarsh is a computer science student at Vellore Institute of Technology focused on AI and machine learning. He likes building products end to end and working with early-stage teams. He previously co-led the VITronix Club."},
   {title:"SolveX", id:"solvex", tags:["solvex","build yourself","personal contribution","what did you build","code","judge","verify","test","backend","agents","fastapi","langgraph"], answer:"Adarsh built SolveX end to end. Its FastAPI backend orchestrates five LangGraph agents and can run generated code against sample tests through Judge0. A failing run can feed execution feedback into another attempt."},
   {title:"StyleSearch AI", id:"stylesearch", tags:["stylesearch","style search","search","ranking","semantic","data analysis","postgres","evaluation","ab test","pgvector","backend"], answer:"StyleSearch AI combines keyword and semantic retrieval for natural-language fashion searches. Budget limits stay fixed while preferences help rank results. Its documented offline Precision@10 rose from 0.64 to 0.80."},
   {title:"FounderSync", id:"foundersync", tags:["foundersync","founder sync","startup","founder","investor","verification","trust","pause"], answer:"FounderSync is Adarsh’s paused pre-launch concept for connecting founders and investors in India. He worked on business planning, investor categories, and verification tiers tied to membership and visibility."},
   {title:"PolishCV", id:"polishcv", tags:["polishcv","resume enhancer","résumé","editor","latex","word","pdf","full stack"], answer:"PolishCV takes a PDF or Word résumé through parsing, AI-assisted editing, a live preview, and export. It uses a React and TypeScript interface with a FastAPI backend."},
   {title:"Experience", id:"about", tags:["internship","upstride","infosys","aurameter","game","game development","minimax","intern","react native","experience"], answer:"Adarsh interned in AI at Upstride and Infosys Springboard, and in backend and game development at AuraMeter. At AuraMeter he built seven React Native games and implemented minimax with alpha-beta pruning."},
   {title:"Credentials", id:"credentials", tags:["certifications","aws","cloud","credential","coursera","certificate"], answer:"Adarsh earned AWS Certified Solutions Architect – Associate and AWS Certified Cloud Practitioner. He completed applied machine learning coursework from the University of Michigan and IBM."},
-  {title:"Contact", id:"contact", tags:["contact","email","linkedin","hire","phone","reach"], answer:"The main way to reach Adarsh is by email. You can also reach Adarsh on LinkedIn."},
+  {title:"Contact", id:"contact", tags:["contact","email","linkedin","hire","phone","reach","get in touch","connect with adarsh","message adarsh"], answer:"The main way to reach Adarsh is by email. You can also reach Adarsh on LinkedIn."},
 ];
 
 let soundEnabled = false;
@@ -143,12 +143,27 @@ function openMiso() {
   if (!misoDialog.open) misoDialog.showModal();
 }
 
-function matchingSources(query) {
-  const normalized = query.toLowerCase().replace(/[-–]/g, " ").replace(/[^\p{L}\p{N} ]/gu, "");
+function normalizeQuestion(query) {
+  return query.normalize("NFKC").toLowerCase().replace(/['‘’]/g, "")
+    .replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+}
+
+const introQuestions = [
+  /\b(?:who is|whos|tell (?:me|us)(?: (?:a bit|more))? about|introduce|describe|summarize) (?:adarsh(?: jaiswal)?|him)\b/,
+  /\b(?:what is|whats|what s) (?:adarsh(?: jaiswal)?|he) like\b/,
+  /\bwhat kind of person is (?:adarsh(?: jaiswal)?|he)\b/,
+  /\bwhat (?:does (?:adarsh(?: jaiswal)?|he) do|should (?:i|we) know about (?:adarsh(?: jaiswal)?|him))\b/,
+];
+
+function matchingSources(normalized) {
   const words = new Set(normalized.split(/\s+/));
+  const phrase = " " + normalized + " ";
   return sources.map((source) => ({
     source,
-    score: source.tags.reduce((score, tag) => score + (tag.includes(" ") ? (normalized.includes(tag) ? 5 : 0) : (words.has(tag) ? 2 : 0)), 0),
+    score: source.tags.reduce((score, tag) => {
+      if (tag.includes(" ")) return score + (phrase.includes(" " + tag + " ") ? 5 : 0);
+      return score + (words.has(tag) ? 2 : 0);
+    }, 0),
   })).filter(({score}) => score > 0).sort((a, b) => b.score - a.score).slice(0, 2).map(({source}) => source);
 }
 
@@ -157,7 +172,7 @@ const misoReplies = [
     text:"Meow. I’ll give you some space. I’m here if you want to start over.", grumpy:true},
   {pattern:/\b(?:where (?:does|is) (?:adarsh|he) (?:live|stay|based|located|from)|where (?:is|can i find) adarsh(?: now| right now)?(?=[?!. ]*$)|(?:home|personal|street) address|(?:his|adarsh'?s) (?:address|location)|where do you live|(?:phone|mobile|whatsapp) number)\b/i,
     text:"My address is the warmest patch of sunlight. Adarsh’s public contact details are in the Contact section.", source:"contact"},
-  {pattern:/\b(?:good person|nice (?:person|guy)|bad person|what(?:'s| is) (?:adarsh|he) like|is (?:adarsh|he) (?:kind|nice|friendly|honest|trustworthy|a good (?:guy|human)))\b/i,
+  {pattern:/\b(?:good person|nice (?:person|guy)|bad person|is (?:adarsh(?: jaiswal)?|he) (?:kind|nice|friendly|honest|trustworthy|a good (?:guy|human)))\b/i,
     text:"I’m a cat, so my character references are mostly about who shares the sunny chair. If you’d like to get to know Adarsh, he talks about how he works in his About section.", source:"about"},
   {pattern:/^(?:hi|hey|hello|hiya|meow|good (?:morning|afternoon|evening))(?: there| miso)?[!.?\s]*$/i,
     text:"Meow! You caught me between naps. What’s on your mind?"},
@@ -221,8 +236,10 @@ function chatLine(text, kind) {
 async function ask(raw) {
   const question = raw.trim().slice(0, 240);
   if (!question) return;
+  const normalized = normalizeQuestion(question);
   const reply = misoReplies.find(({pattern}) => pattern.test(question.replace(/[‘’]/g, "'")));
-  const matches = reply ? [] : matchingSources(question);
+  const introduction = !reply && introQuestions.some((pattern) => pattern.test(normalized));
+  const matches = reply ? [] : introduction ? [sources[0]] : matchingSources(normalized);
   chatLine(question, "user");
   if (reply?.grumpy) {
     annoyedUntil = performance.now() + 1250;
@@ -251,6 +268,7 @@ async function ask(raw) {
     addSource(matches[0]);
     chat.scrollTop = chat.scrollHeight;
   }
+  if (introduction) return;
   if (!matches.length && /\b(?:adarsh|jaiswal)\b/i.test(question)) return;
   try {
     const generated = await localAnswer(question, matches);
